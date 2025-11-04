@@ -1,21 +1,32 @@
 package pool.level2;
 
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
-public abstract class PrioritizedJobRunnable implements Runnable, Comparable<PrioritizedJobRunnable>{
+public class PrioritizedJobRunnable implements Runnable, Comparable<PrioritizedJobRunnable>{
 
-    ThreadPriority priority;
+    private final ThreadPriority priority;
+    private final Runnable job;
+    private final String id;
 
-    public PrioritizedJobRunnable(ThreadPriority priority){
+    public PrioritizedJobRunnable(BlockingQueue<PrioritizedJobRunnable> jobQueue, ThreadPriority priority, Runnable job){
+        this.id = UUID.randomUUID().toString();
         this.priority = priority;
+        this.job = job;
     }
 
     @Override
     public int compareTo(PrioritizedJobRunnable o) {
-        return o.priority.compareTo(this.priority);
+        return this.priority.compareTo(o.priority);
     }
 
     @Override
-    abstract public void run();
+    public void run(){
+        job.run();
+    }
 
+    @Override
+    public String toString() {
+        return "PrioritizedJobRunnable=[id="+id+",priority="+priority+"]";
+    }
 }

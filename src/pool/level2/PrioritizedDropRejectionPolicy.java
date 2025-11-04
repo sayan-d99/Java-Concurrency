@@ -4,7 +4,7 @@ public class PrioritizedDropRejectionPolicy implements RejectionPolicy<Prioritiz
 
     @Override
     public synchronized void reject(PrioritizedJobRunnable job, ThreadPoolLevel2 threadPool) {
-
+        System.out.printf("%s: Dropping job : %s\n", Thread.currentThread().getName(), job);
     }
 
 }

@@ -1,5 +1,7 @@
 package pool.level1;
 
+import util.ThreadUtils;
+
 import java.util.concurrent.BlockingQueue;
 
 public class ThreadPoolRunnable implements Runnable{
@@ -15,21 +17,26 @@ public class ThreadPoolRunnable implements Runnable{
     public void run() {
         while(!isStopped){
             try {
+               ThreadUtils.log("Waiting for job from queue");
                 Runnable r = this.jobQueue.take();
-                System.out.printf("%s : Executing job %s\n", threadName(), r);
+               ThreadUtils.log("Executing job %s", r);
                 r.run();
-                System.out.printf("%s : Completed job %s\n", threadName(), r);
+               ThreadUtils.log("Completed job %s", r);
             } catch (InterruptedException e) {
-                System.out.printf("%s : Error fetching job from queue\n", threadName());
+               ThreadUtils.log("Error fetching job from queue");
             }
         }
-        System.out.printf("%s : Thread has been stopped. Exiting run()\n", threadName());
+       ThreadUtils.log("Thread has been stopped. Exiting run()");
     }
 
     public void stop(){
         this.isStopped = true;
-        System.out.printf("%s is stopping\n", threadName());
+       ThreadUtils.log("%s is stopping", threadName());
         Thread.currentThread().interrupt();
+    }
+
+    public void waitToFinish() throws InterruptedException {
+        Thread.currentThread().join();
     }
 
     private String threadName(){

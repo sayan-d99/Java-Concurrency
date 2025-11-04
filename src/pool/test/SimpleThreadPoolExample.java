@@ -1,4 +1,6 @@
-package pool.level1;
+package pool.test;
+
+import pool.level1.SimpleThreadPool;
 
 import java.util.Random;
 
