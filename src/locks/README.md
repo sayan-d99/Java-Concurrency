@@ -33,7 +33,7 @@
 6. **Producer–Consumer using `ReentrantLock` + `Condition`**
 
     * Re-implement the classic problem **without** `BlockingQueue`.
-    * Use two conditions: `notFull` and `notEmpty`.
+    * Use two conditions: `cannotConsume` and `cannotProduce`.
 
 7. **Reader–Writer Cache**
 
